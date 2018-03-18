@@ -1,0 +1,5 @@
+--model - put' k fajlu, iz kotorogo zagruzhaetsya model'.
+--seed - neobyazatel'nyj argument. Nachal'noe slovo. Esli ne ukazano, vybiraetsya slovo sluchajno iz vsekh slov (ne uchityvaya chastoty).
+--length - dlina generiruemoj posledovatel'nosti.
+--output - neobyazatel'nyj argument. Fajl, v kotoryj budet zapisan rezul'tat. Esli argument otsutstvuet, vyvoditsya v stdout.
+--help - instrukcii k ispol'zovaniyu.
