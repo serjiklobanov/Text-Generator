@@ -1,5 +1,4 @@
---input-dir - put' k direktorii, v kotoroj lezhit kollekciya dokumentov. Esli dannyj argument ne zadan, schitat',
-chto teksty vvodyatsya iz stdin.
---model - put' k fajlu, v kotoryj sohranyaetsya model'.
---lc - neobyazatel'nyj argument. Privodit' teksty k lowercase.
---help - instrukcii k ispol'zovaniyu.
+--input-dir - путь к директории, в которой лежит коллекция документов. Если данный аргумент не задан, считать, что тексты вводятся из stdin.
+--model - путь к файлу, в который сохраняется модель.
+--lc - необязательный аргумент. Приводить тексты к lowercase.
+--help - необязательный аргумент. Инструкции к использованию.

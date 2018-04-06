@@ -1,39 +1,51 @@
 import random
-command = input()
-while command != "":
-    command = command.split()
-    if "--help" in command:
-        helps = open("generateHelp.txt", 'r')
-        for line in helps:
-            print(line, end='')
-        print()
-    model = command[command.index("--model") + 1]
-    inputFile = open(model, 'r')
-    dictionary = {}
-    for line in inputFile:
-        string = line.split()
-        if len(string) == 1:
-            dictionary.update({string[0]: []})
-            word1 = string[0]
+import pickle
+
+
+def print_help():
+    helps = open("generateHelp.txt", 'br').read()
+    helps = helps.decode('utf8')
+    for l in helps:
+        print(l, end='')
+    print()
+
+
+def parse_dictionary(dic):
+    new_dictionary = {}
+    for word1 in dic.keys():
+        new_dictionary.update({word1: []})
+        for word2 in dic[word1].keys():
+            new_dictionary[word1] += [word2] * dic[word1][word2]
+    return new_dictionary
+
+
+Command = input()
+while Command != "":
+    Command = Command.split()
+    if "--help" in Command:
+        print_help()
+    else:
+        model = Command[Command.index("--model") + 1]
+        with open(model, "rb") as inputFile:
+            Dictionary = pickle.load(inputFile)
+        NewDictionary = parse_dictionary(Dictionary)
+        if "--seed" in Command:
+            seed = Command[Command.index("--seed") + 1]
         else:
-            dictionary[word1] += [string[0]] * int(string[1])
-    if "--seed" in command:
-        seed = command[command.index("--seed") + 1]
-    else:
-        seed = random.choice(list(dictionary.keys()))
-    length = int(command[command.index("--length") + 1])
-    print(seed, end=' ')
-    if "--output" in command:
-        output = open(command[command.index("--output") + 1])
-        for i in range(length):
-            seed = random.choice(dictionary[seed])
-            output.write(seed + ' ')
-            if (i + 1) % 20 == 0:
-                output.write('\n')
-    else:
-        for i in range(length):
-            seed = random.choice(dictionary[seed])
-            print(seed, end=' ')
-            if (i + 1) % 20 == 0:
-                print()
-    command = input()
+            seed = random.choice(list(NewDictionary.keys()))
+        length = int(Command[Command.index("--length") + 1])
+        print(seed, end=' ')
+        if "--output" in Command:
+            output = open(Command[Command.index("--output") + 1])
+            for i in range(length):
+                seed = random.choice(NewDictionary[seed])
+                output.write(seed + ' ')
+                if (i + 1) % 20 == 0:
+                    output.write('\n')
+        else:
+            for i in range(length):
+                seed = random.choice(NewDictionary[seed])
+                print(seed, end=' ')
+                if (i + 1) % 20 == 0:
+                    print()
+    Command = input()
