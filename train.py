@@ -1,15 +1,11 @@
 from os import listdir
 import pickle
+import re
 
 
-def parse(w):
-    new = ""
-    for char in w:
-        if (ord('a') <= ord(char)) and (ord(char) <= ord('z')) \
-                or (ord('A') <= ord(char)) and (ord(char) <= ord('Z')) \
-                or (ord('А') <= ord(char)) and (ord(char) <= ord('Я')):
-            new = new + char
-    return w
+def parse(raw):
+    text = re.findall(r"\w+(?:[-]\w+)|\w+", raw)
+    return text
 
 
 def print_help():
@@ -29,18 +25,16 @@ def get_dictionary(input_dir):
             string = line
             if LC:
                 string = string.lower()
-            string = string.split()
-            for word in string:
-                parsed = parse(word)
-                if parsed != "":
-                    if last_word != "":
-                        if parsed in dic[last_word].keys():
-                            dic[last_word][parsed] += 1
-                        else:
-                            dic[last_word].update({parsed: 1})
-                    if parsed not in dic.keys():
-                        dic.update({parsed: {}})
-                    last_word = parsed
+            parsed = parse(string)
+            for word in parsed:
+                if last_word != "":
+                    if word in dic[last_word].keys():
+                        dic[last_word][word] += 1
+                    else:
+                        dic[last_word].update({word: 1})
+                if word not in dic.keys():
+                    dic.update({word: {}})
+                last_word = word
     return dic
 
 
